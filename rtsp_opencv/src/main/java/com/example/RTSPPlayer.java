@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.videoio.VideoCapture;
+import org.opencv.videoio.Videoio;
 import org.opencv.core.Core;
 import javafx.scene.image.Image;
 import java.io.ByteArrayInputStream;
@@ -41,6 +42,7 @@ public class RTSPPlayer extends Application {
 
     private void startVideoStream() {
         capture = new VideoCapture();
+        capture.set(Videoio.CAP_PROP_OPEN_TIMEOUT_MSEC, 5000);
         boolean isOpened = capture.open(RTSP_URL);
         System.out.println("RTSP stream opened: " + isOpened); // 스트림 열기 여부 출력
 
