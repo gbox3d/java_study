@@ -18,12 +18,6 @@ public class App {
 
         Object[] _arr = v.toArray();
 
-        Integer num =  v.get(0);
-
-        //set num 7
-        num = 7;
-
-        
         System.out.println("--------------------");
 
         for (int i = 0; i < _arr.length; i++) {

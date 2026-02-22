@@ -8,7 +8,7 @@ import javax.swing.*;
 public class MainFrame extends JFrame {
 
     public MainFrame() {
-        setTitle("Main Frame");
+        setTitle("exam02");
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -31,8 +31,9 @@ public class MainFrame extends JFrame {
     }
 
     public static void main(String[] args) {
-        // System.out.println("Hello, World!");
-        MainFrame myFrame = new MainFrame();
+        
+        new MainFrame();
+        
     }
     
 }
