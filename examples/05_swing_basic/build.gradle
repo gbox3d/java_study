@@ -2,8 +2,10 @@ plugins {
     id 'application'
 }
 
+def selectedMainClass = (findProperty('appMain') ?: 'exam02.MainFrame').toString()
+
 application {
-    mainClass = 'exam02.MainFrame'
+    mainClass = selectedMainClass
 }
 
 sourceSets {
@@ -12,4 +14,18 @@ sourceSets {
             srcDirs = ['src']
         }
     }
+}
+
+tasks.register('runExam01', JavaExec) {
+    group = 'application'
+    description = 'Run exam01.mainFrame'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'exam01.mainFrame'
+}
+
+tasks.register('runExam02', JavaExec) {
+    group = 'application'
+    description = 'Run exam02.MainFrame'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'exam02.MainFrame'
 }
