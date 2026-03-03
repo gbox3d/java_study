@@ -1,0 +1,19 @@
+plugins {
+    id 'application'
+}
+
+dependencies {
+    implementation 'com.fazecast:jSerialComm:2.11.0'
+}
+
+application {
+    mainClass = 'App'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+        }
+    }
+}

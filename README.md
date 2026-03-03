@@ -1,53 +1,30 @@
 # Java Study Project
 
-Gradle 기반 Java/Kotlin 비교 학습 프로젝트입니다.  
-동일한 주차/예제를 `app`(Java)와 `app-kotlin`(Kotlin)에서 나란히 실행할 수 있습니다.
+Gradle 기반 Java 학습 저장소입니다. `gradle` 브랜치의 Java/Kotlin 비교 예제(`app`, `app-kotlin`)와 `main` 브랜치의 교재형 예제 모듈(`examples/*`)이 함께 포함되어 있습니다.
 
 ## 환경 요구 사항
 
-- Java: JDK 21
-- Gradle: Wrapper 사용 (별도 설치 불필요)
+- JDK 21
+- Gradle Wrapper 사용
 
-## 기본 실행
+## 포함된 모듈
 
-### Windows
-~~~pwsh
-.\gradlew.bat :app:run
-.\gradlew.bat :app-kotlin:run
-.\gradlew.bat :app:test
-.\gradlew.bat :app-kotlin:test
-~~~
+- `app`: 주차별 Java 예제
+- `app-kotlin`: 동일 주제의 Kotlin 예제
+- `examples/01_hello` ~ `examples/08_serial_uart`: 교재형 Java 예제
 
-### macOS / Linux
-~~~bash
-./gradlew :app:run
-./gradlew :app-kotlin:run
-./gradlew :app:test
-./gradlew :app-kotlin:test
-~~~
+## 자주 쓰는 명령
 
-## 주차별 예제 실행
-
-### Java 예시
-~~~pwsh
+```powershell
+.\gradlew.bat projects
+.\gradlew.bat build
 .\gradlew.bat :app:runWeek01Ex01
-.\gradlew.bat :app:runWeek07Ex03
-~~~
-
-### Kotlin 예시
-~~~pwsh
 .\gradlew.bat :app-kotlin:runWeek01Ex01
-.\gradlew.bat :app-kotlin:runWeek07Ex03
-~~~
+.\gradlew.bat :ex01_hello:run
+.\gradlew.bat :ex08_serial_uart:run
+```
 
-태스크 이름 규칙:
-- `runWeekXXExYY`
-- `XX`: 01~10 (주차)
-- `YY`: 01~03 (예제 번호)
-
-모듈 지정:
-- Java: `:app:runWeekXXExYY`
-- Kotlin: `:app-kotlin:runWeekXXExYY`
+macOS/Linux에서는 `./gradlew`를 사용하면 됩니다.
 
 ## 주차별 문서
 

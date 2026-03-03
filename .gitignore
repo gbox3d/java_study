@@ -5,3 +5,9 @@
 build
 **/build/
 .vscode/
+
+bin/
+.metadata/
+.class
+
+/temp
