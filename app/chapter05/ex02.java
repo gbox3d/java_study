@@ -14,8 +14,19 @@ public class ex02 {
     }
 
     public static void main(String[] args) {
+        int validAge = 25;
+        int invalidAge = -5;
+
         try {
-            checkAge(-5);
+            checkAge(validAge);
+            System.out.println("valid age: " + validAge);
+        } catch (InvalidAgeException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            checkAge(invalidAge);
+            System.out.println("valid age: " + invalidAge);
         } catch (InvalidAgeException e) {
             System.out.println(e.getMessage());
         }
