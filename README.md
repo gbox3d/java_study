@@ -1,156 +1,71 @@
-# Java Programming Course - Lecture Presentations (Weeks 01-05)
+# Java 수업 교재
 
-## Overview
-This directory contains 5 comprehensive PowerPoint presentations for a Java programming course, generated using python-pptx. All presentations are in Korean with English technical terminology.
+10주 자바 수업용 예제 코드와 강의 자료 저장소입니다.
+빌드 도구 없이 `javac` / `java` 명령만으로 진행해 학생이 컴파일·실행 흐름을 직접 손에 익히는 데 초점을 둡니다.
 
-## Files
+## 빠른 시작
 
-### Week 01: 자바 기초 문법과 실행 흐름
-**File:** `Week01_JavaBasics.pptx`  
-**Slides:** 17  
-**Topics:**
-- JVM/JDK/JRE concept
-- Main method and command-line arguments
-- Variables and data types
-- Type casting (implicit/explicit)
-- Operators (increment, comparison, logical)
-- Conditional statements (if-else, switch)
-- Loops (for, while, do-while)
-- Loop control (break, continue, labeled break)
-- Nested loops (star pyramid)
+요구 사항: **JDK 21 LTS** (이 저장소는 Microsoft Build of OpenJDK 21 기준으로 검증).
 
-### Week 02: 배열과 메서드
-**File:** `Week02_ArraysAndMethods.pptx`  
-**Slides:** 13  
-**Topics:**
-- Array declaration and initialization
-- Array traversal with enhanced for loop
-- Arrays.toString() method
-- Method declaration and invocation
-- Method overloading
-- Varargs (variable arguments)
-- 2D arrays
-- Bubble sort algorithm
+```powershell
+# 단일 예제 컴파일·실행
+javac -encoding UTF-8 -d bin app\chapter01\Ex01.java
+java -cp bin chapter01.Ex01
+```
 
-### Week 03: 객체지향 I (클래스와 객체)
-**File:** `Week03_OOP_Part1.pptx`  
-**Slides:** 13  
-**Topics:**
-- Class and object concepts
-- Fields and methods
-- Constructors and initialization
-- `this` keyword
-- Constructor overloading and chaining
-- toString() method
-- Encapsulation
-- Access modifiers (private/public)
-- Static members
-- Getter/Setter pattern
+VSCode 사용 시 `Extension Pack for Java`만 설치하면 `app/chapter01/Ex01.java`를 열고 ▶ 버튼으로 바로 실행할 수 있습니다.
+워크스페이스 설정은 [.vscode/settings.json](.vscode/settings.json) 참조.
 
-### Week 04: 객체지향 II (상속과 다형성)
-**File:** `Week04_OOP_Part2.pptx`  
-**Slides:** 13  
-**Topics:**
-- Inheritance with `extends` keyword
-- Parent and child classes
-- `super` keyword usage
-- Method overriding
-- Polymorphism
-- Parent type arrays with child objects
-- `instanceof` operator
-- Upcasting/Downcasting
-- Abstract classes
-- Interfaces
-- Multiple interface implementation
+## 디렉터리 구조
 
-### Week 05: 예외 처리 및 표준 API
-**File:** `Week05_ExceptionHandling.pptx`  
-**Slides:** 14  
-**Topics:**
-- Exception concept and hierarchy
-- Checked vs Unchecked exceptions
-- try-catch-finally blocks
-- Custom exception creation
-- `throw` and `throws` keywords
-- Multi-catch blocks
-- try-with-resources
-- LocalDate and LocalTime API
-- DateTimeFormatter
-- Date validation and leap year handling
+```
+java_study/
+├── app/              # 주차별 예제 소스 (Ex01.java, Ex02.java ...)
+│   ├── chapter01/    ~ chapter10/
+├── docs/             # 강의 슬라이드(.pptx)와 주차별 README
+│   ├── week01/       ~ week10/
+│   ├── Week01_JavaBasics.pptx ~ Week10_NetworkCommunication.pptx
+│   └── question_bank_chapter01_06.md (+ answers)
+├── _forAI/           # AI 작업 문맥 (inventory/plan/memo/dev_log)
+├── .vscode/          # VSCode 워크스페이스 설정
+└── README.md
+```
 
-## Generation Details
+## 주차별 목차
 
-**Generator Script:** `generate_weeks_01_05.py`  
-**Helper Module:** `/sessions/kind-dreamy-newton/pptx_gen/slide_helper.py`
+| 주차 | 주제 | 예제 소스 | 보충 자료 |
+|---|---|---|---|
+| 1주 | 자바 시작과 기본 문법 | [app/chapter01/](app/chapter01/) (Ex01~Ex04) | [docs/week01/](docs/week01/README.md) |
+| 2주 | 배열과 메서드 | [app/chapter02/](app/chapter02/) (Ex01~Ex03) | [docs/week02/](docs/week02/README.md) |
+| 3주 | 클래스와 객체 | [app/chapter03/](app/chapter03/) (Ex01~Ex03) | [docs/week03/](docs/week03/README.md) |
+| 4주 | 상속과 다형성 (RPG 테마) | [app/chapter04/](app/chapter04/) (ex01~ex03 패키지) | [docs/week04/](docs/week04/README.md) |
+| 5주 | 예외 처리와 표준 API | [app/chapter05/](app/chapter05/) (Ex01~Ex04) | [docs/week05/](docs/week05/README.md) |
+| 6주 | 컬렉션 프레임워크 | [app/chapter06/](app/chapter06/) (ex01~ex02 패키지) | [docs/week06/](docs/week06/README.md) |
+| 7주 | 제네릭, 람다, 스트림 | [app/chapter07/](app/chapter07/) (Ex01~Ex03) | [docs/week07/](docs/week07/README.md) |
+| 8주 | 표준 I/O와 파일 입출력 | [app/chapter08/](app/chapter08/) (Ex01~Ex04) | [docs/week08/](docs/week08/README.md) |
+| 9주 | 스레드와 진행바 | [app/chapter09/](app/chapter09/) (Ex01=기본 틀, Ex02=2스레드) | [docs/week09/](docs/week09/README.md) |
+| 10주 | 네트워크 기초 | [app/chapter10/](app/chapter10/) (Ex01~Ex03) | [docs/week10/](docs/week10/README.md) |
 
-### Statistics
-- **Total Presentations:** 5
-- **Total Slides:** 70
-- **Total Code Examples:** 29
-- **Quiz Questions:** 20 (4 per week)
-- **Total Size:** ~236 KB
+각 주차 폴더(`docs/weekNN/README.md`)에 학습 목표, 핵심 개념, 실행 방법, 실습 체크리스트, 퀴즈 예시가 정리되어 있습니다.
 
-### Features
-- Ocean Gradient color palette for professional appearance
-- Proper code syntax highlighting
-- Section divider slides
-- Practice exercises on each week
-- Quiz questions for assessment
-- Summary slides with key takeaways
-- Standard 10x5.625 inch presentation format
+## 강의 슬라이드
 
-## Content Structure
+`docs/Week01_JavaBasics.pptx` ~ `docs/Week10_NetworkCommunication.pptx` (10개, 한국어 + 영문 기술용어).
+파워포인트 또는 LibreOffice/Google Slides에서 열어볼 수 있습니다.
 
-Each presentation includes:
-1. **Title Slide** - Week number and main topic
-2. **Section Slides** - Topic divisions with subtitles
-3. **Content Slides** - Bullet points and explanations
-4. **Code Slides** - Java code examples with explanations
-5. **Practice Slide** - 실습 (hands-on exercises)
-6. **Quiz Slide** - Review questions
-7. **Summary Slide** - Key points recap
+## 문제 은행
 
-## Code Examples
+- [docs/question_bank_chapter01_06.md](docs/question_bank_chapter01_06.md) — 1~6주차 문제
+- [docs/question_bank_chapter01_06_answers.md](docs/question_bank_chapter01_06_answers.md) — 해설
 
-All presentations contain complete, runnable Java code examples:
+## 코드 관례
 
-**Week 01:** HelloWorld with args, variables and printf, star pyramid, conditionals and loops  
-**Week 02:** Arrays and output, varargs methods, bubble sort, method overloading  
-**Week 03:** Student class, constructors, encapsulation, static members  
-**Week 04:** Inheritance, polymorphism, interfaces, abstract classes  
-**Week 05:** Exception handling, custom exceptions, date/time APIs
+- **클래스명/파일명**: `PascalCase` (예: `Ex01`, `PartyManager`, `ItemSpec`)
+- **패키지명**: 소문자 (예: `chapter01`, `chapter04.ex01`)
+- **인코딩**: UTF-8 / LF / 들여쓰기 4칸
+- **산출물 폴더**: `bin/` (VSCode 기본) 또는 `out/classes/` — 둘 다 `.gitignore`됨
 
-## Language & Presentation
+## 추가 자료
 
-- **Primary Language:** Korean (한국어)
-- **Technical Terms:** English with Korean explanations in parentheses
-- **Font:** Georgia (headers), Calibri (body), Consolas (code)
-- **Target Audience:** Java programming students (beginner to intermediate)
-
-## How to Use
-
-1. Open each .pptx file in Microsoft PowerPoint, Google Slides, or compatible software
-2. Review the code examples for classroom demonstration
-3. Assign practice exercises to students
-4. Use quiz questions for assessment and review
-5. All slides are self-contained and can be presented in order
-
-## System Requirements
-
-- PowerPoint 2010+ or compatible office suite (LibreOffice, Google Slides)
-- Python 3.7+ (for regenerating presentations)
-- python-pptx library (for modifications)
-
-## Notes
-
-- All content is theoretically sound and pedagogically structured
-- Progressive difficulty from basic to advanced OOP concepts
-- Code examples follow Java naming conventions and best practices
-- Presentations are designed for classroom use with estimated 2-3 hours per week
-- All slides support Korean and English mixed content
-
----
-
-**Generated:** March 25, 2026  
-**Course Level:** Beginner to Intermediate  
-**Total Study Hours:** 10-15 hours recommended per week
+- [_forAI/](_forAI/) — AI/이어 받는 협업자를 위한 작업 문맥 (저장소 구조, 운영 메모, 작업 이력, 커리큘럼 계획)
+- [COURSE_SUMMARY.txt](COURSE_SUMMARY.txt) — 10주 슬라이드 생성 이력과 통계

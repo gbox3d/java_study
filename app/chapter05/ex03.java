@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-public class ex03 {
+public class Ex03 {
     static boolean isValidDate(String input) {
         try {
             LocalDate.parse(input, DateTimeFormatter.ISO_LOCAL_DATE);

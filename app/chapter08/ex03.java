@@ -1,49 +1,30 @@
 package chapter08;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class ex03 {
-    static class User implements Serializable {
-        private static final long serialVersionUID = 1L;
-
-        String id;
-        transient String password;
-
-        User(String id, String password) {
-            this.id = id;
-            this.password = password;
-        }
-
-        @Override
-        public String toString() {
-            return "User{id='" + id + "', password='" + password + "'}";
-        }
-    }
-
+public class Ex03 {
     public static void main(String[] args) {
-        Path file = Path.of("out", "files", "user.dat");
+        Path file = Path.of("out", "files", "week08_ex03.txt"); // out/files/week08_ex03.txt
 
         try {
-            Files.createDirectories(file.getParent());
-
-            User saved = new User("alice", "secret123");
-            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file.toFile()))) {
-                out.writeObject(saved);
+            Files.createDirectories(file.getParent()); // Ensure the parent directory exists
+            try (BufferedWriter writer = Files.newBufferedWriter(file)) { // Try-with-resources to ensure the writer is closed
+                writer.write("line1");
+                writer.newLine();
+                writer.write("line2");
             }
 
-            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file.toFile()))) {
-                User loaded = (User) in.readObject();
-                System.out.println("saved:  " + saved);
-                System.out.println("loaded: " + loaded);
+            try (BufferedReader reader = Files.newBufferedReader(file)) { // Try-with-resources to ensure the reader is closed
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    System.out.println("read: " + line);
+                }
             }
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

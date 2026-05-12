@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ex03 {
+public class Ex03 {
     private static final int PORT = 8888;
     private static final List<PrintWriter> CLIENTS = Collections.synchronizedList(new ArrayList<>());
 

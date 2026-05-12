@@ -7,7 +7,7 @@
 
 ## 예제 클래스
 - 패키지: chapter07
-- 클래스: ex01, ex02, ex03
+- 클래스: Ex01, Ex02, Ex03
 
 ## 이번 주 핵심 개념
 - 제네릭은 타입을 일반화해 재사용성을 높인다.
@@ -18,27 +18,27 @@
 ## 실행 방법
 ```bash
 mkdir -p out/classes
-javac -encoding UTF-8 -d out/classes app/chapter07/ex01.java
-javac -encoding UTF-8 -d out/classes app/chapter07/ex02.java
-javac -encoding UTF-8 -d out/classes app/chapter07/ex03.java
+javac -encoding UTF-8 -d out/classes app/chapter07/Ex01.java
+javac -encoding UTF-8 -d out/classes app/chapter07/Ex02.java
+javac -encoding UTF-8 -d out/classes app/chapter07/Ex03.java
 
-java -cp out/classes chapter07.ex01
-java -cp out/classes chapter07.ex02
-java -cp out/classes chapter07.ex03
+java -cp out/classes chapter07.Ex01
+java -cp out/classes chapter07.Ex02
+java -cp out/classes chapter07.Ex03
 ```
 
 소스 파일 하나만 바로 실행할 때:
 
 ```bash
-java app/chapter07/ex01.java
-java app/chapter07/ex02.java
-java app/chapter07/ex03.java
+java app/chapter07/Ex01.java
+java app/chapter07/Ex02.java
+java app/chapter07/Ex03.java
 ```
 
 ## 예제별 설명
 
-### ex01 - 제네릭 클래스
-대상 소스: `app/chapter07/ex01.java`
+### Ex01 - 제네릭 클래스
+대상 소스: `app/chapter07/Ex01.java`
 
 이 예제는 하나의 박스 클래스가 여러 타입을 담을 수 있도록 일반화한 코드다.
 
@@ -76,8 +76,8 @@ System.out.println(box.get());
 - 이 박스는 `String` 전용 박스가 된다.
 - 잘못된 타입을 넣는 실수를 컴파일 단계에서 막을 수 있다.
 
-### ex02 - 람다식과 메서드 참조
-대상 소스: `app/chapter07/ex02.java`
+### Ex02 - 람다식과 메서드 참조
+대상 소스: `app/chapter07/Ex02.java`
 
 이 예제는 문자열 리스트를 정렬하고 출력하는 과정에서 람다와 메서드 참조를 보여준다.
 
@@ -99,8 +99,8 @@ list.forEach(System.out::println);
 - `x -> System.out.println(x)`를 더 짧게 쓴 형태다.
 - 람다와 메서드 참조의 차이를 비교해 보기 좋다.
 
-### ex03 - 스트림 파이프라인
-대상 소스: `app/chapter07/ex03.java`
+### Ex03 - 스트림 파이프라인
+대상 소스: `app/chapter07/Ex03.java`
 
 이 예제는 숫자 리스트를 조건에 맞게 걸러내고 변환하는 스트림 예제다.
 
@@ -120,9 +120,9 @@ List<Integer> result = values.stream()
 
 ## 실습 체크리스트
 
-- `ex01`에서 `Box<String>`을 다른 타입으로 바꿔 테스트했다.
-- `ex02`에서 정렬 기준을 바꿔 결과가 어떻게 달라지는지 확인했다.
-- `ex03`에서 `filter()` 조건이나 `map()` 수식을 수정해 봤다.
+- `Ex01`에서 `Box<String>`을 다른 타입으로 바꿔 테스트했다.
+- `Ex02`에서 정렬 기준을 바꿔 결과가 어떻게 달라지는지 확인했다.
+- `Ex03`에서 `filter()` 조건이나 `map()` 수식을 수정해 봤다.
 - 람다식과 메서드 참조의 차이를 코드 예시로 설명할 수 있다.
 
 ## 퀴즈 예시

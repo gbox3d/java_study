@@ -7,7 +7,7 @@
 
 ## 예제 클래스
 - 패키지: chapter02
-- 클래스: ex01, ex02, ex03
+- 클래스: Ex01, Ex02, Ex03
 
 ## 이번 주 핵심 개념
 - 배열은 같은 타입의 값을 순서대로 묶어 저장하는 자료구조다.
@@ -18,27 +18,27 @@
 ## 실행 방법
 ```bash
 mkdir -p out/classes
-javac -encoding UTF-8 -d out/classes app/chapter02/ex01.java
-javac -encoding UTF-8 -d out/classes app/chapter02/ex02.java
-javac -encoding UTF-8 -d out/classes app/chapter02/ex03.java
+javac -encoding UTF-8 -d out/classes app/chapter02/Ex01.java
+javac -encoding UTF-8 -d out/classes app/chapter02/Ex02.java
+javac -encoding UTF-8 -d out/classes app/chapter02/Ex03.java
 
-java -cp out/classes chapter02.ex01
-java -cp out/classes chapter02.ex02
-java -cp out/classes chapter02.ex03
+java -cp out/classes chapter02.Ex01
+java -cp out/classes chapter02.Ex02
+java -cp out/classes chapter02.Ex03
 ```
 
 소스 파일 하나만 바로 실행할 때:
 
 ```bash
-java app/chapter02/ex01.java
-java app/chapter02/ex02.java
-java app/chapter02/ex03.java
+java app/chapter02/Ex01.java
+java app/chapter02/Ex02.java
+java app/chapter02/Ex03.java
 ```
 
 ## 예제별 설명
 
-### ex01 - 배열 선언, 출력, 순회
-대상 소스: `app/chapter02/ex01.java`
+### Ex01 - 배열 선언, 출력, 순회
+대상 소스: `app/chapter02/Ex01.java`
 
 이 예제는 배열을 만들고, 같은 배열을 서로 다른 방식으로 출력해 보는 코드다.
 
@@ -86,8 +86,8 @@ array values: [90, 85, 95]
 - 배열 전체 출력은 `Arrays.toString()`으로 확인한다.
 - 단순 순회는 향상된 for문이 편하다.
 
-### ex02 - 메서드 분리와 가변 인자
-대상 소스: `app/chapter02/ex02.java`
+### Ex02 - 메서드 분리와 가변 인자
+대상 소스: `app/chapter02/Ex02.java`
 
 이 예제는 여러 숫자의 합을 계산하는 기능을 `sum()` 메서드로 분리한 코드다.
 
@@ -128,8 +128,8 @@ System.out.println("sum(1, 2, 3, 4, 5) = " + sum(1, 2, 3, 4, 5));
 - 매개변수는 입력, `return`은 출력이다.
 - 가변 인자는 내부적으로 배열처럼 처리된다.
 
-### ex03 - 배열 정렬과 버블 정렬
-대상 소스: `app/chapter02/ex03.java`
+### Ex03 - 배열 정렬과 버블 정렬
+대상 소스: `app/chapter02/Ex03.java`
 
 이 예제는 배열을 오름차순으로 정렬하는 가장 기본적인 버블 정렬을 직접 구현한 코드다.
 
@@ -187,10 +187,10 @@ System.out.println(Arrays.toString(data));
 
 ## 실습 체크리스트
 
-- `ex01`에서 배열 값을 직접 바꾸고 출력 결과를 다시 확인했다.
-- `ex02`에서 `sum()` 호출 인자 개수를 바꿔 결과를 비교했다.
-- `ex03`에서 배열 데이터를 다른 값으로 바꿔 정렬 결과를 확인했다.
-- `ex03`을 내림차순 정렬로 바꾸는 시도를 해봤다.
+- `Ex01`에서 배열 값을 직접 바꾸고 출력 결과를 다시 확인했다.
+- `Ex02`에서 `sum()` 호출 인자 개수를 바꿔 결과를 비교했다.
+- `Ex03`에서 배열 데이터를 다른 값으로 바꿔 정렬 결과를 확인했다.
+- `Ex03`을 내림차순 정렬로 바꾸는 시도를 해봤다.
 
 ## 퀴즈 예시
 - `scores`를 그냥 출력했을 때 값 목록이 안 보이는 이유는 무엇인가?
@@ -199,7 +199,7 @@ System.out.println(Arrays.toString(data));
 - 버블 정렬에서 안쪽 반복문의 범위가 `arr.length - i - 1`인 이유는 무엇인가?
 
 ## 추천 추가 실습
-- `ex01`을 바꿔서 합계와 평균까지 출력하기
-- `ex02`에 `max(int... numbers)` 메서드 추가하기
-- `ex03`을 내림차순 정렬로 바꾸기
-- `ex03`에서 비교가 한 번도 일어나지 않으면 조기 종료하도록 개선하기
+- `Ex01`을 바꿔서 합계와 평균까지 출력하기
+- `Ex02`에 `max(int... numbers)` 메서드 추가하기
+- `Ex03`을 내림차순 정렬로 바꾸기
+- `Ex03`에서 비교가 한 번도 일어나지 않으면 조기 종료하도록 개선하기

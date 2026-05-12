@@ -1,6 +1,6 @@
 package chapter05;
 
-public class ex02 {
+public class Ex02 {
     static class InvalidAgeException extends RuntimeException {
         InvalidAgeException(String message) {
             super(message);

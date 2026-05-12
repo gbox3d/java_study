@@ -2,7 +2,7 @@ package chapter02;
 
 import java.util.Arrays;
 
-public class ex01 {
+public class Ex01 {
     public static void main(String[] args) {
         int[] scores = {90, 85, 95};
 

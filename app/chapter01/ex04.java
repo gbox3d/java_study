@@ -1,6 +1,6 @@
 package chapter01;
 
-public class ex04 {
+public class Ex04 {
     public static void main(String[] args) {
         // 1) if-else
         int score = 82;

@@ -22,10 +22,10 @@ Topics:
   • 중첩 반복문 (Star Pyramid)
 
 Code Examples:
-  - ex01: HelloWorld + command line args
-  - ex02: Variables, printf formatting, type casting
-  - ex03: Star pyramid with nested loops
-  - ex04: if-else grade calculator, switch expression
+  - Ex01: HelloWorld + command line args
+  - Ex02: Variables, printf formatting, type casting
+  - Ex03: Star pyramid with nested loops
+  - Ex04: if-else grade calculator, switch expression
 
 ================================================================================
 WEEK 02: 배열과 메서드 (Arrays & Methods)
@@ -45,10 +45,10 @@ Topics:
   • Bubble Sort 정렬 알고리즘
 
 Code Examples:
-  - ex01: Array declaration and output
-  - ex02: Varargs method (sum calculation)
-  - ex03: Bubble Sort implementation
-  - ex04: Method overloading examples
+  - Ex01: Array declaration and output
+  - Ex02: Varargs method (sum calculation)
+  - Ex03: Bubble Sort implementation
+  - Ex04: Method overloading examples
 
 ================================================================================
 WEEK 03: 객체지향 I - 클래스와 객체 (OOP Part I)
@@ -71,10 +71,10 @@ Topics:
   • Getter/Setter 패턴
 
 Code Examples:
-  - ex01: Student class with fields, constructor, methods
-  - ex02: Constructor overloading with this()
-  - ex03: BankAccount with private balance, deposit/withdraw
-  - ex04: Getter/Setter pattern implementation
+  - Ex01: Student class with fields, constructor, methods
+  - Ex02: Constructor overloading with this()
+  - Ex03: BankAccount with private balance, deposit/withdraw
+  - Ex04: Getter/Setter pattern implementation
 
 ================================================================================
 WEEK 04: 객체지향 II - 상속과 다형성 (OOP Part II)
@@ -96,10 +96,10 @@ Topics:
   • 다중 인터페이스 구현
 
 Code Examples:
-  - ex01: Employee/Manager inheritance with super()
-  - ex02: Animal/Dog/Cat polymorphism with Animal[] array
-  - ex03: Movable+Attackable interfaces with Hero class
-  - ex04: Abstract Animal class with abstract sound()
+  - Ex01: Employee/Manager inheritance with super()
+  - Ex02: Animal/Dog/Cat polymorphism with Animal[] array
+  - Ex03: Movable+Attackable interfaces with Hero class
+  - Ex04: Abstract Animal class with abstract sound()
 
 ================================================================================
 WEEK 05: 예외 처리 및 표준 API (Exception Handling & Standard API)
@@ -125,11 +125,11 @@ Topics:
   • 윤년 처리 (Leap Year)
 
 Code Examples:
-  - ex01: divide(10,0) ArithmeticException handling
-  - ex02: InvalidAgeException extends RuntimeException
-  - ex03: LocalDate.parse with DateTimeFormatter
-  - ex04: isValidDate method implementation
-  - ex05: Multi-catch and try-with-resources
+  - Ex01: divide(10,0) ArithmeticException handling
+  - Ex02: InvalidAgeException extends RuntimeException
+  - Ex03: LocalDate.parse with DateTimeFormatter
+  - Ex04: isValidDate method implementation
+  - Ex05: Multi-catch and try-with-resources
 
 ================================================================================
 GENERATION DETAILS

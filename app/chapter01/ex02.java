@@ -2,7 +2,7 @@ package chapter01;
 
 import java.util.Locale;
 
-public class ex02 {
+public class Ex02 {
     public static void main(String[] args) {
         int id = 2026001;
         double gpa = 4.18;

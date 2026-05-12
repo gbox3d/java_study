@@ -1,6 +1,6 @@
 package chapter05;
 
-public class ex01 {
+public class Ex01 {
     static int divide(int a, int b) {
         return a / b;
     }

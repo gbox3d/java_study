@@ -2,7 +2,7 @@ package chapter02;
 
 import java.util.Arrays;
 
-public class ex03 {
+public class Ex03 {
     static void sortArray(int[] arr) {
         for (int i = 0; i < arr.length - 1; i++) {
             for (int j = 0; j < arr.length - i - 1; j++) {

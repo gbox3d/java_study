@@ -7,7 +7,7 @@
 
 ## 예제 클래스
 - 패키지: chapter01
-- 클래스: ex01, ex02, ex03, ex04
+- 클래스: Ex01, Ex02, Ex03, Ex04
 
 ## 이번 주 핵심 개념
 - `main(String[] args)`는 자바 프로그램의 시작점이다.
@@ -18,30 +18,30 @@
 ## 실행 방법
 ```bash
 mkdir -p out/classes
-javac -encoding UTF-8 -d out/classes app/chapter01/ex01.java
-javac -encoding UTF-8 -d out/classes app/chapter01/ex02.java
-javac -encoding UTF-8 -d out/classes app/chapter01/ex03.java
-javac -encoding UTF-8 -d out/classes app/chapter01/ex04.java
+javac -encoding UTF-8 -d out/classes app/chapter01/Ex01.java
+javac -encoding UTF-8 -d out/classes app/chapter01/Ex02.java
+javac -encoding UTF-8 -d out/classes app/chapter01/Ex03.java
+javac -encoding UTF-8 -d out/classes app/chapter01/Ex04.java
 
-java -cp out/classes chapter01.ex01
-java -cp out/classes chapter01.ex02
-java -cp out/classes chapter01.ex03
-java -cp out/classes chapter01.ex04
+java -cp out/classes chapter01.Ex01
+java -cp out/classes chapter01.Ex02
+java -cp out/classes chapter01.Ex03
+java -cp out/classes chapter01.Ex04
 ```
 
 소스 파일 하나만 바로 실행할 때:
 
 ```bash
-java app/chapter01/ex01.java hello world
-java app/chapter01/ex02.java
-java app/chapter01/ex03.java
-java app/chapter01/ex04.java
+java app/chapter01/Ex01.java hello world
+java app/chapter01/Ex02.java
+java app/chapter01/Ex03.java
+java app/chapter01/Ex04.java
 ```
 
 ## 예제별 설명
 
-### ex01 - 첫 실행과 명령행 인자
-대상 소스: `app/chapter01/ex01.java`
+### Ex01 - 첫 실행과 명령행 인자
+대상 소스: `app/chapter01/Ex01.java`
 
 이 예제는 자바 프로그램의 가장 기본 형태를 보여준다.
 
@@ -51,7 +51,7 @@ public static void main(String[] args)
 
 - `main`은 JVM이 프로그램 시작점으로 찾는 메서드다.
 - `String[] args`는 터미널에서 넘긴 값을 문자열 배열로 받는다.
-- 예를 들어 `java app/chapter01/ex01.java hello world`로 실행하면 `args[0]`은 `hello`, `args[1]`은 `world`가 된다.
+- 예를 들어 `java app/chapter01/Ex01.java hello world`로 실행하면 `args[0]`은 `hello`, `args[1]`은 `world`가 된다.
 
 출력 코드는 두 부분으로 나뉜다.
 
@@ -72,8 +72,8 @@ for (int i = 0; i < args.length; i++) {
 - 명령행 인자는 문자열 배열로 전달된다.
 - 배열은 `length`를 사용해 순회한다.
 
-### ex02 - 변수, 형변환, 서식 출력
-대상 소스: `app/chapter01/ex02.java`
+### Ex02 - 변수, 형변환, 서식 출력
+대상 소스: `app/chapter01/Ex02.java`
 
 이 예제는 정수와 실수를 변수에 저장하고, 형식을 맞춰 출력하는 방법을 보여준다.
 
@@ -106,8 +106,8 @@ System.out.printf(
 - 실수에서 정수로 형변환하면 소수점 아래가 잘린다.
 - `printf`는 출력 형식을 세밀하게 제어할 때 사용한다.
 
-### ex03 - 중첩 반복문으로 패턴 출력
-대상 소스: `app/chapter01/ex03.java`
+### Ex03 - 중첩 반복문으로 패턴 출력
+대상 소스: `app/chapter01/Ex03.java`
 
 이 예제는 별 피라미드를 만들면서 중첩 반복문을 연습하는 코드다.
 
@@ -142,8 +142,8 @@ for (int i = 0; i < height; i++) {
 - 출력 순서가 곧 화면 모양을 결정한다.
 - 수식 `height - i - 1`, `i * 2 + 1`이 모양을 만든다.
 
-### ex04 - 조건문과 제어문 비교
-대상 소스: `app/chapter01/ex04.java`
+### Ex04 - 조건문과 제어문 비교
+대상 소스: `app/chapter01/Ex04.java`
 
 이 예제는 한 파일 안에서 `if-else`, `switch`, `continue`, `break`, 라벨드 `break`까지 한 번에 보여준다.
 
@@ -203,19 +203,19 @@ oddSum += i;
 
 ## 실습 체크리스트
 
-- `ex01`을 인자를 바꿔 두 번 이상 실행했다.
-- `ex02`에서 숫자 값을 바꿔 형변환 결과를 확인했다.
-- `ex03`에서 `height` 값을 바꿔 출력 모양이 어떻게 달라지는지 확인했다.
-- `ex04`에서 `score`, `month` 값을 바꿔 조건문 결과를 직접 비교했다.
+- `Ex01`을 인자를 바꿔 두 번 이상 실행했다.
+- `Ex02`에서 숫자 값을 바꿔 형변환 결과를 확인했다.
+- `Ex03`에서 `height` 값을 바꿔 출력 모양이 어떻게 달라지는지 확인했다.
+- `Ex04`에서 `score`, `month` 값을 바꿔 조건문 결과를 직접 비교했다.
 
 ## 퀴즈 예시
 - `args.length`는 어떤 의미인가?
 - `(int) 4.18`의 결과가 왜 4인가?
-- `ex03`에서 별 개수를 `i * 2 + 1`로 계산하는 이유는 무엇인가?
+- `Ex03`에서 별 개수를 `i * 2 + 1`로 계산하는 이유는 무엇인가?
 - 일반 `break`와 라벨드 `break`의 차이는 무엇인가?
 
 ## 추천 추가 실습
-- `ex01`에서 인자가 없을 때 안내 문구 출력하기
-- `ex02`에서 이름, 학번, 평균 점수를 함께 출력하기
-- `ex03`을 역피라미드나 마름모로 바꾸기
-- `ex04`에서 점수 구간을 입력값에 따라 여러 번 테스트하기
+- `Ex01`에서 인자가 없을 때 안내 문구 출력하기
+- `Ex02`에서 이름, 학번, 평균 점수를 함께 출력하기
+- `Ex03`을 역피라미드나 마름모로 바꾸기
+- `Ex04`에서 점수 구간을 입력값에 따라 여러 번 테스트하기

@@ -1,6 +1,6 @@
 package chapter02;
 
-public class ex02 {
+public class Ex02 {
     static int sum(int... numbers) {
         int result = 0;
         for (int n : numbers) {

@@ -3,7 +3,7 @@ package chapter05;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public class ex04 {
+public class Ex04 {
     static void printDateCalculation(LocalDate date) {
         LocalDate after10Days = date.plusDays(10);
         LocalDate after1Month = date.plusMonths(1);

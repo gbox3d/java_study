@@ -7,7 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.CountDownLatch;
 
-public class ex02 {
+public class Ex02 {
     public static void main(String[] args) throws Exception {
         CountDownLatch ready = new CountDownLatch(1);
         int[] portHolder = new int[1];

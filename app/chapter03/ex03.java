@@ -1,6 +1,6 @@
 package chapter03;
 
-public class ex03 {
+public class Ex03 {
     static class BankAccount {
         private int balance;
 

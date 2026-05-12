@@ -7,7 +7,7 @@
 
 ## 예제 클래스
 - 패키지: chapter10
-- 클래스: ex01, ex02, ex03
+- 클래스: Ex01, Ex02, Ex03
 
 ## 이번 주 핵심 개념
 - 네트워크 통신은 다른 프로세스와 데이터를 주고받는 과정이다.
@@ -19,27 +19,27 @@
 ## 실행 방법
 ```bash
 mkdir -p out/classes
-javac -encoding UTF-8 -d out/classes app/chapter10/ex01.java
-javac -encoding UTF-8 -d out/classes app/chapter10/ex02.java
-javac -encoding UTF-8 -d out/classes app/chapter10/ex03.java
+javac -encoding UTF-8 -d out/classes app/chapter10/Ex01.java
+javac -encoding UTF-8 -d out/classes app/chapter10/Ex02.java
+javac -encoding UTF-8 -d out/classes app/chapter10/Ex03.java
 
-java -cp out/classes chapter10.ex01
-java -cp out/classes chapter10.ex02
-java -cp out/classes chapter10.ex03
+java -cp out/classes chapter10.Ex01
+java -cp out/classes chapter10.Ex02
+java -cp out/classes chapter10.Ex03
 ```
 
 소스 파일 하나만 바로 실행할 때:
 
 ```bash
-java app/chapter10/ex01.java
-java app/chapter10/ex02.java
-java app/chapter10/ex03.java
+java app/chapter10/Ex01.java
+java app/chapter10/Ex02.java
+java app/chapter10/Ex03.java
 ```
 
 ## 예제별 설명
 
-### ex01 - UDP 송수신
-대상 소스: `app/chapter10/ex01.java`
+### Ex01 - UDP 송수신
+대상 소스: `app/chapter10/Ex01.java`
 
 이 예제는 하나의 프로그램 안에서 수신자 스레드와 송신자 소켓을 함께 만들어 UDP 통신을 보여준다.
 
@@ -82,8 +82,8 @@ sender.send(packet);
 - 루프백 주소 `127.0.0.1`은 자기 자신을 의미한다.
 - 수신 스레드가 열어 둔 포트로 메시지를 보낸다.
 
-### ex02 - TCP Echo
-대상 소스: `app/chapter10/ex02.java`
+### Ex02 - TCP Echo
+대상 소스: `app/chapter10/Ex02.java`
 
 이 예제는 서버와 클라이언트를 한 프로그램 안에서 순서대로 실행해 TCP 흐름을 보여준다.
 
@@ -119,8 +119,8 @@ try (Socket socket = new Socket("127.0.0.1", portHolder[0]);
 - 서버가 연 포트로 접속한다.
 - 연결 후 메시지를 보내고 응답을 읽는다.
 
-### ex03 - 채팅 서버 구조 읽기
-대상 소스: `app/chapter10/ex03.java`
+### Ex03 - 채팅 서버 구조 읽기
+대상 소스: `app/chapter10/Ex03.java`
 
 이 예제는 완성형 실행보다 "멀티 클라이언트 채팅 서버가 어떤 구조로 동작하는지"를 읽어 보는 템플릿에 가깝다.
 
@@ -166,9 +166,9 @@ static void broadcast(String message) {
 
 ## 실습 체크리스트
 
-- `ex01`을 실행해 UDP 메시지가 어떻게 전달되는지 확인했다.
-- `ex02`를 실행해 서버와 클라이언트 흐름을 순서대로 설명할 수 있다.
-- `ex03`에서 `startServer()`, `broadcast()`, `ClientHandler`의 역할을 구분할 수 있다.
+- `Ex01`을 실행해 UDP 메시지가 어떻게 전달되는지 확인했다.
+- `Ex02`를 실행해 서버와 클라이언트 흐름을 순서대로 설명할 수 있다.
+- `Ex03`에서 `startServer()`, `broadcast()`, `ClientHandler`의 역할을 구분할 수 있다.
 - UDP와 TCP 차이를 한 문장으로 설명할 수 있다.
 
 ## 퀴즈 예시
@@ -178,7 +178,7 @@ static void broadcast(String message) {
 - `broadcast()`에서 동기화가 필요한 이유는 무엇인가?
 
 ## 추천 추가 실습
-- `ex01`에서 메시지를 두 번 보내기
-- `ex02`에서 다른 문자열을 보내 Echo 결과 확인하기
-- `ex03`에 접속자 수 출력 로직 추가하기
+- `Ex01`에서 메시지를 두 번 보내기
+- `Ex02`에서 다른 문자열을 보내 Echo 결과 확인하기
+- `Ex03`에 접속자 수 출력 로직 추가하기
 - `startServer()`를 실제로 호출해 단순 채팅 서버로 확장해 보기

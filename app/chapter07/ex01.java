@@ -1,6 +1,6 @@
 package chapter07;
 
-public class ex01 {
+public class Ex01 {
     static class Box<T> {
         private T value;
 

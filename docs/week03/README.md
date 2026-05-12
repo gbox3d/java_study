@@ -7,7 +7,7 @@
 
 ## 예제 클래스
 - 패키지: chapter03
-- 클래스: ex01, ex02, ex03
+- 클래스: Ex01, Ex02, Ex03
 
 ## 이번 주 핵심 개념
 - 클래스는 객체를 만들기 위한 설계도다.
@@ -18,27 +18,27 @@
 ## 실행 방법
 ```bash
 mkdir -p out/classes
-javac -encoding UTF-8 -d out/classes app/chapter03/ex01.java
-javac -encoding UTF-8 -d out/classes app/chapter03/ex02.java
-javac -encoding UTF-8 -d out/classes app/chapter03/ex03.java
+javac -encoding UTF-8 -d out/classes app/chapter03/Ex01.java
+javac -encoding UTF-8 -d out/classes app/chapter03/Ex02.java
+javac -encoding UTF-8 -d out/classes app/chapter03/Ex03.java
 
-java -cp out/classes chapter03.ex01
-java -cp out/classes chapter03.ex02
-java -cp out/classes chapter03.ex03
+java -cp out/classes chapter03.Ex01
+java -cp out/classes chapter03.Ex02
+java -cp out/classes chapter03.Ex03
 ```
 
 소스 파일 하나만 바로 실행할 때:
 
 ```bash
-java app/chapter03/ex01.java
-java app/chapter03/ex02.java
-java app/chapter03/ex03.java
+java app/chapter03/Ex01.java
+java app/chapter03/Ex02.java
+java app/chapter03/Ex03.java
 ```
 
 ## 예제별 설명
 
-### ex01 - 클래스와 객체의 기본 형태
-대상 소스: `app/chapter03/ex01.java`
+### Ex01 - 클래스와 객체의 기본 형태
+대상 소스: `app/chapter03/Ex01.java`
 
 이 예제는 `Student` 클래스를 정의하고 객체를 생성하는 가장 기본적인 형태다.
 
@@ -75,8 +75,8 @@ student.printInfo();
 - `student`는 객체를 가리키는 참조 변수다.
 - `printInfo()`는 객체의 데이터를 출력하는 메서드다.
 
-### ex02 - 생성자 오버로딩과 `this()`
-대상 소스: `app/chapter03/ex02.java`
+### Ex02 - 생성자 오버로딩과 `this()`
+대상 소스: `app/chapter03/Ex02.java`
 
 이 예제는 같은 클래스에서 생성자를 여러 개 둘 수 있다는 점을 보여준다.
 
@@ -111,8 +111,8 @@ public String toString() {
 - 객체를 그냥 출력해도 사람이 읽기 쉬운 문자열이 나온다.
 - 자바에서 디버깅과 출력에 매우 자주 쓰는 패턴이다.
 
-### ex03 - 캡슐화와 접근 제어자
-대상 소스: `app/chapter03/ex03.java`
+### Ex03 - 캡슐화와 접근 제어자
+대상 소스: `app/chapter03/Ex03.java`
 
 이 예제는 계좌 잔액을 외부에서 직접 건드리지 못하게 막는 구조를 보여준다.
 
@@ -162,9 +162,9 @@ int getBalance() {
 
 ## 실습 체크리스트
 
-- `ex01`에서 학생 이름과 나이를 바꿔 객체 생성 결과를 확인했다.
-- `ex02`에서 기본 생성자와 매개변수 생성자의 차이를 직접 실행으로 비교했다.
-- `ex03`에서 입금/출금 금액을 바꿔 성공과 실패 결과를 모두 확인했다.
+- `Ex01`에서 학생 이름과 나이를 바꿔 객체 생성 결과를 확인했다.
+- `Ex02`에서 기본 생성자와 매개변수 생성자의 차이를 직접 실행으로 비교했다.
+- `Ex03`에서 입금/출금 금액을 바꿔 성공과 실패 결과를 모두 확인했다.
 - `balance`를 직접 바꾸지 못하는 이유를 코드에서 설명할 수 있다.
 
 ## 퀴즈 예시
@@ -175,6 +175,6 @@ int getBalance() {
 
 ## 추천 추가 실습
 - `Student` 클래스에 학번 필드 추가하기
-- `ex02`에 세 번째 생성자 추가하기
+- `Ex02`에 세 번째 생성자 추가하기
 - `BankAccount`에 송금 메서드 만들기
 - 잘못된 입금/출금 시 안내 문구 출력하기

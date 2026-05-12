@@ -7,7 +7,7 @@
 
 ## 예제 클래스
 - 패키지: chapter05
-- 클래스: ex01, ex02, ex03, ex04
+- 클래스: Ex01, Ex02, Ex03, Ex04
 
 ## 이번 주 핵심 개념
 - 예외는 프로그램 실행 중 발생하는 비정상 상황을 표현한다.
@@ -18,30 +18,30 @@
 ## 실행 방법
 ```bash
 mkdir -p out/classes
-javac -encoding UTF-8 -d out/classes app/chapter05/ex01.java
-javac -encoding UTF-8 -d out/classes app/chapter05/ex02.java
-javac -encoding UTF-8 -d out/classes app/chapter05/ex03.java
-javac -encoding UTF-8 -d out/classes app/chapter05/ex04.java
+javac -encoding UTF-8 -d out/classes app/chapter05/Ex01.java
+javac -encoding UTF-8 -d out/classes app/chapter05/Ex02.java
+javac -encoding UTF-8 -d out/classes app/chapter05/Ex03.java
+javac -encoding UTF-8 -d out/classes app/chapter05/Ex04.java
 
-java -cp out/classes chapter05.ex01
-java -cp out/classes chapter05.ex02
-java -cp out/classes chapter05.ex03
-java -cp out/classes chapter05.ex04
+java -cp out/classes chapter05.Ex01
+java -cp out/classes chapter05.Ex02
+java -cp out/classes chapter05.Ex03
+java -cp out/classes chapter05.Ex04
 ```
 
 소스 파일 하나만 바로 실행할 때:
 
 ```bash
-java app/chapter05/ex01.java
-java app/chapter05/ex02.java
-java app/chapter05/ex03.java
-java app/chapter05/ex04.java
+java app/chapter05/Ex01.java
+java app/chapter05/Ex02.java
+java app/chapter05/Ex03.java
+java app/chapter05/Ex04.java
 ```
 
 ## 예제별 설명
 
-### ex01 - `try-catch-finally`
-대상 소스: `app/chapter05/ex01.java`
+### Ex01 - `try-catch-finally`
+대상 소스: `app/chapter05/Ex01.java`
 
 이 예제는 0으로 나누는 상황에서 예외가 어떻게 처리되는지 보여준다.
 
@@ -80,8 +80,8 @@ finally block executed
 - 예외가 발생해도 `finally`는 끝까지 실행된다.
 - 자원 정리나 종료 메시지 출력에 자주 사용한다.
 
-### ex02 - 사용자 정의 예외
-대상 소스: `app/chapter05/ex02.java`
+### Ex02 - 사용자 정의 예외
+대상 소스: `app/chapter05/Ex02.java`
 
 이 예제는 "나이 값이 이상하다"는 의미를 직접 예외 클래스로 표현한다.
 
@@ -116,8 +116,8 @@ invalid age: -5
 - 정상 값은 그대로 통과한다.
 - 비정상 값은 `InvalidAgeException`으로 의미 있게 구분된다.
 
-### ex03 - 날짜 파싱과 검증
-대상 소스: `app/chapter05/ex03.java`
+### Ex03 - 날짜 파싱과 검증
+대상 소스: `app/chapter05/Ex03.java`
 
 이 예제는 문자열이 올바른 날짜인지 검사하는 전형적인 패턴이다.
 
@@ -153,8 +153,8 @@ try {
 - 문자열이 형식에 맞아 보여도 실제 달력에 없는 날짜면 실패한다.
 - 날짜 입력 검증은 예외를 잡아 논리값으로 바꾸는 패턴이 자주 쓰인다.
 
-### ex04 - 날짜 계산
-대상 소스: `app/chapter05/ex04.java`
+### Ex04 - 날짜 계산
+대상 소스: `app/chapter05/Ex04.java`
 
 이 예제는 `LocalDate`를 이용해 날짜를 더하고,
 두 날짜 사이 차이를 계산하는 기본 패턴을 보여준다.
@@ -194,11 +194,11 @@ days until event: 21
 
 ## 실습 체크리스트
 
-- `ex01`을 실행해 예외 메시지와 `finally` 출력 순서를 확인했다.
-- `ex02`에서 정상 나이와 비정상 나이를 모두 테스트했다.
-- `ex03`에서 유효한 날짜와 유효하지 않은 날짜를 직접 바꿔 넣어 봤다.
-- `ex04`에서 `plusDays()`, `plusMonths()` 결과가 어떻게 바뀌는지 확인했다.
-- `ex04`에서 두 날짜 사이 차이를 `ChronoUnit.DAYS.between()`으로 계산해 봤다.
+- `Ex01`을 실행해 예외 메시지와 `finally` 출력 순서를 확인했다.
+- `Ex02`에서 정상 나이와 비정상 나이를 모두 테스트했다.
+- `Ex03`에서 유효한 날짜와 유효하지 않은 날짜를 직접 바꿔 넣어 봤다.
+- `Ex04`에서 `plusDays()`, `plusMonths()` 결과가 어떻게 바뀌는지 확인했다.
+- `Ex04`에서 두 날짜 사이 차이를 `ChronoUnit.DAYS.between()`으로 계산해 봤다.
 - `throw`, `catch`, `finally`의 역할을 각각 설명할 수 있다.
 
 권장 확인 포인트:

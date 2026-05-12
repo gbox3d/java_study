@@ -6,7 +6,7 @@ import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CountDownLatch;
 
-public class ex01 {
+public class Ex01 {
     public static void main(String[] args) throws Exception {
         CountDownLatch ready = new CountDownLatch(1);
         int[] portHolder = new int[1];

@@ -1,6 +1,6 @@
 package chapter03;
 
-public class ex01 {
+public class Ex01 {
     static class Student {
         String name;
         int age;
