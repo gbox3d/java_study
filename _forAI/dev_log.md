@@ -1,5 +1,146 @@
 # Dev Log
 
+## 2026-05-20
+
+### chapter09 화면 갱신 일관화 — Ex02/Ex03 도 `\r`-only 로 통일
+
+- 사용자 보고: PowerShell 세션에서 Ex02 실행 시 `[2A`, `[K` 같은 ANSI escape 가 raw text 로 나옴. Ex01 은 멀쩡한데 Ex02 부터 깨짐
+- 진단: 해당 PS 세션이 VT processing 비활성 상태. Ex02/Ex03 의 `\033[2A` / `\033[K` 가 해석 안 됨. Ex01 은 `\r` 만 쓰므로 영향 없음
+- 사용자 결정: "예제들의 일관성이 중요" — Ex02/Ex03 도 Ex01 처럼 `\r`-only 로 통일 (라이브러리 도입은 보류)
+- Ex02 재작성: 두 워커 진행바를 한 줄에 나란히 표시 (`A:|====| 47% B:|==| 23%`). TRACK_WIDTH 30 → 20 으로 줄여 80-col 안에 두 바가 같이 들어오게 함. UTF-8 PrintStream wrap 제거 (ASCII 만 사용)
+- Ex03 재작성: 매초 `\r` 로 현재 줄을 `[MM:SS STATE] >` 로 덮어쓰는 형태. Enter 누를 때마다 커서가 한 줄 내려가 직전 상태가 "히스토리" 로 한 줄씩 쌓이는 trade-off 수용 (ANSI 버전의 "위쪽 고정" 레이아웃은 포기)
+- main 도 명령 처리 직후 `redraw()` 한 번 호출 — Enter 이후 새 줄에 즉시 새 상태가 보이도록 (다음 timer tick 대기 1초 회피). main/timer 두 스레드가 모두 출력하므로 기존 `SCREEN_LOCK` 으로 직렬화
+- docs/week09/README 업데이트:
+  - 실행 방법 안내: "Ex02 만 ANSI 콘솔 권장" → "세 예제 모두 `\r` + flush 만 사용, 어떤 콘솔에서도 동작"
+  - Ex01/Ex02 비교 표: "갱신 트릭" 행이 둘 다 `\r` 로 통일
+  - Ex02 출력 예: 두 줄 진행바 → 한 줄 진행바
+  - Ex03 섹션 전면 재작성: 화면 모양 예, `drawScreen()` → `redraw()`, ANSI 시퀀스 설명 제거, "main/timer 둘 다 redraw 호출 + SCREEN_LOCK" 새 절 추가, 시각적 제약을 `\r` 흔들림 기준으로 다시 씀, Jansi/JLine 옵션은 blockquote 로 짧게 언급
+  - 체크리스트의 `timer: 00:00 [STOPPED]` → `[00:00 STOPPED] >` 로 갱신
+  - 추가 실습의 "`\033[NA` 의 N 만 바꾸면 된다" → "`redraw()` 안의 진행바 출력 부분만 늘리면 된다" 로 갱신
+- 라이브러리 도입 검토: 사용자가 "라이브러 가져다 쓰가?" 질문. Jansi/JLine/Lanterna 비교 후 비추천 (지금 코드는 75~85 줄, 챕터 초점은 스레드. 라이브러리는 빌드 의존성 + 학습 부담을 키움). README 에 Jansi/JLine 은 향후 옵션으로 짧게 메모만 남김
+- plan.md 9주차 참고 소스 항목: "Ex03 = ANSI 커서 저장/복원" → "Ex03 = `\r`-only" 로 갱신
+- 검증: `javac` exit 0, Ex02 출력 마지막 프레임 `A:|====================| 100%   B:|====================| 100%` 정상, Ex03 piped `start/stop/reset/quit` 입력 정상 동작 (`Bye.` 종료)
+
+### chapter09 다시 3-예제 구성 — Ex02 복원, Ex03 신규
+
+- 사용자가 Ex02 교체(시계+입력)를 되돌리기로 결정. "Ex02 는 원래대로 (두 스레드 진행바), 시계+입력은 Ex03 으로 가자"
+- Ex02.java 복원: 직전 단계에서 만들었던 2-스레드 진행바 예제 그대로 다시 작성 (pct/% 표기, ANSI 갱신, `int[2]` 공유 진행률)
+- Ex03.java 신규: 직전 Ex02 였던 시계+입력 코드를 그대로 가져와 클래스명만 `Ex02` → `Ex03` 으로 변경
+- Ex01.java 주석: "스레드 자체는 Ex02 와 Ex03 에서 다룬다" 로 갱신
+- docs/week09/README 재구성:
+  - 학습 목표/예제 클래스/핵심 개념을 3-예제 구조로 다시 씀
+  - 실행 방법에 `chapter09.Ex03` 추가
+  - Ex02 섹션 (두 스레드 진행바) 복원
+  - Ex03 섹션 신규: "Ex02 가 '두 스레드가 같이 도는 것'을 보여줬다면, Ex03 은 '왜 굳이 스레드를 쓰는가'에 대한 답" 으로 위치 정리. Ex02 와 중복되지 않는 새 도구만 표로 정리 (`Scanner.nextLine()`, `interrupt()`, `InterruptedException` catch).
+  - 체크리스트와 퀴즈, 추가 실습 모두 Ex02/Ex03 둘 다 다루도록 보강
+- plan.md 9주차: 3-예제 구성으로 다시 씀, 실습 항목을 Ex01/Ex02/Ex03 별로 정리
+- 루트 README: 9주 행 라벨 "Ex01=진행바 틀, Ex02=두 스레드, Ex03=시계+입력"
+- 검증: 전체 `javac` exit 0, Ex01/Ex02/Ex03 모두 정상 실행
+
+### Ex03 시계를 같은 줄에 덮어쓰도록 변경
+
+- 사용자 요청: "다음줄로 넘기지 말고 같은 줄에 계속나오게 해줘요"
+- `runClock` 의 `System.out.println(...)` → `System.out.print("\rclock: ...") + System.out.flush()` 로 교체
+  - `\r` 로 매초 같은 자리에서 시각이 갱신됨 (Ex01 의 진행바 트릭과 동일 패턴)
+- main 의 `scanner.nextLine()` 반환 직후 `System.out.println()` 한 줄 추가
+  - 시계 줄을 마무리하고 새 줄로 내려가야 `Bye.` 가 시계 출력과 겹치지 않음
+- docs/week09 Ex03 섹션: 코드 블록·샘플 출력 모두 새 동작에 맞춰 갱신. "Ex01 의 `\r` 트릭이 시계 자리에 재사용된다" 라는 학습 연결 명시.
+
+### Ex03 UI 기초 패턴으로 재설계 — 시계 상단 고정 + "quit" REPL
+
+- 사용자 요청: "입력 라인도 따로 만들어서 quit 라고 해야 종료. 이게 UI의 기초입니다. 정말 중요한 예제입니다."
+- 단순 `\r` 덮어쓰기 → ANSI 절대 위치 + 커서 저장/복원 패턴으로 업그레이드:
+  - 시작 시 `\033[2J\033[H` 로 화면 클리어
+  - 1번 줄 = 시계 자리, 2번 줄 = 안내, 3번 줄~ = 프롬프트
+  - 시계 스레드는 매 갱신마다 `\033[s` (커서 저장) → `\033[H\033[2K` (홈 + 줄 지우기) → 시각 출력 → `\033[u` (복원). 사용자 타이핑 위치를 건드리지 않음
+- main 루프를 REPL 형태로: "> " 프롬프트 → `Scanner.nextLine()` → `"quit"` 이면 종료, 그 외 입력은 무시하고 다시 프롬프트
+- `Scanner.hasNextLine()` 으로 EOF 보호 추가
+- docs/week09 Ex03 섹션 대폭 확장:
+  - "UI 기초 패턴" / TUI 프로그램 (top, htop, vim) 의 토대라는 위치 매김
+  - 4단계 커서 저장/복원 메커니즘을 코드 + 설명으로
+  - 사용한 ANSI escape 코드 표 (`\033[2J`, `\033[H`, `\033[s`, `\033[u`, `\033[2K`)
+  - REPL 패턴 소개 (`jshell`, 파이썬 인터프리터, bash 의 기본 골격과 동일)
+- 체크리스트에 "시계가 입력 줄을 망가뜨리지 않는지", "`quit` 외 입력은 무시되는지", "`\033[s`/`\033[u` 빼고 깨지는 모습" 실습 추가
+- 퀴즈에 UI 패턴/REPL 문항 추가
+- 검증: `javac` exit 0, `"foo`nquit`n" | java` 로 자동 검증 시 foo 무시 → quit 에서 종료, exit 0
+
+### Ex03 시계 → 스톱워치(타이머) 업그레이드
+
+- 사용자 요청: "시간으로 하지 말고 타이머로. start 시작, stop 정지, reset 0 초기화, quit 나가기"
+- 변화의 핵심 — 단순 표시기 → **상태 머신** + REPL:
+  - 표시: `clock: HH:MM:SS` → `timer: MM:SS [RUNNING|STOPPED]`
+  - 명령: `quit` 하나 → `start` / `stop` / `reset` / `quit` 네 개
+  - 처리부: `if quit break` 한 줄 → `switch (cmd)` 상태 머신
+- 공유 상태 두 개를 두 스레드가 함께 봄:
+  - `volatile boolean running` (main 이 start/stop 으로 변경 → timer 가 매 tick 에 검사)
+  - `volatile int elapsedSeconds` (main 의 reset 또는 timer 의 ++ 로 변경 → render 가 읽음)
+  - chapter09 에서 처음 등장하는 `volatile` 키워드. "여러 스레드가 함께 보는 변수는 가시성 보장이 필요하다"는 개념 도입.
+- 렌더링 정책: timer 스레드만 `render()` 호출. main 은 상태만 바꾸고, 다음 tick 에 화면 반영. 결과적으로 명령 입력 후 최대 1초 표시 지연 — 실제 stopwatch 와 유사한 체감이라 OK. 두 스레드 출력 충돌을 가장 단순한 방법(쓰는 스레드를 하나로)으로 회피.
+- race condition 노트: main 의 `reset` 과 timer 의 `elapsedSeconds++` 가 정확히 동시에 일어나면 reset 이 1초 어긋날 수 있음. 1초 단위 입력에서 실제로 거의 발생하지 않으므로 교육용 예제에서는 그대로 둠 (엄격한 동기화는 별도 학습 주제로 위임).
+- docs/week09 Ex03 섹션 대폭 재작성:
+  - 제목 "스톱워치(타이머)"로 변경, "UI 기초의 결정판" 위치 매김
+  - 명령 → 상태 전이 표, 공유 변수 표, `volatile` 처음 등장 설명
+  - 핵심 코드를 timer 스레드 / REPL 루프 / render() 세 토막으로 나눠 제시
+  - "왜 main 은 화면을 안 그리는가" 트레이드오프 명시
+  - 전형적 시나리오 박스 (시간 흐름과 함께 상태 전이를 보여줌)
+  - 체크리스트를 명령별로 재구성 (start → 카운트 증가, stop → 멈추되 유지, reset → 0, 알 수 없는 명령 → 무시)
+  - 퀴즈에 `volatile` 이유, render 를 main 도 부르면? 같은 새 문항 추가
+  - 추천 추가 실습: `lap` 명령, `pause`/`resume` 별칭, 0.1초 정밀도, ANSI 색상, `help` 명령
+- plan.md 9주차 / 루트 README 의 9주 행 라벨도 "스톱워치 UI"로 갱신
+- 검증: `javac` exit 0, `"start`nstop`nreset`nquit`n" | java` 자동 입력 시 정상 종료 exit 0
+
+### Ex03 입력 줄도 한 자리에 고정 — 진짜 게임/모니터링 UI 느낌
+
+- 사용자 요청: "입력도 한줄로 유지 될수 있을까요?"
+- 명령 처리 후 `System.out.print("\033[1A\r\033[K")` 추가 — Enter 로 내려간 커서를 한 줄 위로 올리고 그 줄을 지움. 다음 루프의 `"> "` 가 같은 자리에 다시 쓰여 입력 영역이 한 줄에 고정됨
+- 예외: `quit` 입력 시에는 이 클리어를 건너뜀 → `> quit` 자국이 그대로 남고 그 아래 `Bye.` 가 출력되어 "내가 종료했다"는 시각적 흔적이 남음. (체크리스트에 이 디자인 선택을 토론거리로 넣음)
+- docs/week09 Ex03 섹션:
+  - 화면 레이아웃 박스를 "3개의 고정 영역(타이머/안내/입력 한 줄)" 으로 재설명
+  - REPL 코드 블록을 새 버전으로 교체 + 한 줄 유지 트릭 설명
+  - ANSI 표에 `\033[1A` 와 `\r`+`\033[K` 가 main 에서 입력 줄 유지를 위해 쓰인다는 점 추가 (어디서 쓰나 컬럼 신설)
+  - 전형 시나리오 박스를 시간 흐름 + 영역별 변화로 4단계 도식화
+  - 체크리스트에 "한 줄 유지 코드 지우기", "quit 시 자국 처리 위치 옮기기" 실험 추가
+  - 퀴즈에 "왜 `\033[1A\r\033[K` 가 필요한가", "quit 때 왜 건너뛰는가" 추가
+- 검증: `"start`nfoo`nstop`nreset`nquit`n" | java` 자동 입력 시 정상 종료 exit 0. 캡처에 `[1A\r[K` 가 4번 (quit 제외 명령마다), `quit` 에서는 클리어 없이 `Bye.` 확인.
+
+### Ex03 "타이핑하면 타이머가 사라진다" 버그 수정 — DEC ESC 7 / ESC 8 채택
+
+- 사용자 보고: "타이핑을 하면 타이머가 안보이는데 왜그러죠?"
+- 원인: 일부 터미널이 xterm 표준 `\033[s` / `\033[u` (cursor save/restore) 를 미구현. 그 경우 사용자 타이핑 echo 가 타이머 줄로 흘러들어가 타이머를 덮어씀.
+- 수정:
+  - 커서 저장/복원을 xterm `\033[s`/`\033[u` → DEC `ESC 7` / `ESC 8` (호환성 더 넓음) 으로 교체
+  - render 의 ANSI 시퀀스 전체를 단일 `print()` 호출로 합쳐 PrintStream 락 안에서 통째로 출력 (race 창 축소)
+  - 상수 `SAVE_CURSOR = "7"` / `RESTORE_CURSOR = "8"` 로 의도 명시. `\033` 뒤에 숫자가 오면 Java 가 8진수로 합치는 함정도 주석으로 설명.
+- docs/week09:
+  - 화면 갱신 코드 블록을 새 버전으로 교체
+  - "두 가지 표준 비교 표 + xterm 무시 시 단계별 시뮬레이션" 으로 버그 메커니즘을 도식화
+  - 단일 `print()` 호출의 이점 (PrintStream 내부 락) 명시
+  - ANSI 표의 `\033[s` / `\033[u` 행을 DEC `7` / `8` 로 갱신, 호환성 메모 추가
+  - 체크리스트에 "DEC → xterm 으로 바꿔 호환성 문제 직접 보기" 실험 추가
+  - 퀴즈에 "두 표준 중 어느 것을 쓰며 왜?", "단일 print 의 이점?" 추가
+- 검증: ESC 7 / ESC 8 바이트가 실제 출력 스트림에 포함됨을 확인 (`[ESC]7...[ESC]8`). `javac` exit 0, 자동 입력 종료 exit 0.
+
+### Ex03 두 차례 재설계 — 단순 scrolling → Ex02 와 같은 ANSI 갱신 패턴
+
+- 사용자 보고 1: "다 깨짐" + "이걸 어떻게 판서하라고 쓰는거야? 학생들이따라 타이핑 할수있게 만들어줘요"
+  - 진단: PS 세션에서 ANSI 미지원으로 `[2J[H`, `7`, `8` 가 텍스트로 그대로 출력됨
+  - `` (유니코드 ESC) 와 DEC `ESC 7` / `ESC 8` 같은 코드는 학생이 칠판 보고 따라 칠 수 없음
+  - 1차 응답: ANSI 다 빼고 단순 scrolling 으로 재작성 (println 만 사용)
+- 사용자 보고 2: "이런식으로 줄단위로 따로 갱신만하게 하고 입력 관련해서는 따로 다른 줄로 관리 하면 되잔아요" + "`System.out.print("\033[2A");` 이렇게요"
+  - Ex02 와 같은 ANSI 패턴(`\033[2A`, `\r\033[K`) 만으로 재설계 요청
+  - 2차 응답: Ex02 의 redraw() 와 동일한 줄 단위 갱신 패턴으로 재작성
+- 최종 Ex03 설계:
+  - 위 두 줄(timer + commands hint) 을 매 tick 마다 통째로 다시 그림
+  - 사용한 ANSI 코드는 Ex02 와 완전히 동일: `\033[2A` / `\r` / `\033[K`
+  - `` 같은 유니코드 escape 일절 없음 -- 학생 판서·타이핑 가능
+  - main 은 명령 처리 후 `\033[1A\r\033[K` 로 cursor 를 입력 줄 자리에 다시 위치시킴 (Enter 로 한 줄 내려간 것 보정). 이게 없으면 시간이 갈수록 화면이 어긋남.
+  - 시각적 trade-off: 타이핑 중 tick 이 발생하면 다음 글자가 col 1 부터 echo 됨. Scanner 는 stdin 버퍼에서 정확히 읽으므로 명령 처리는 정상.
+- docs/week09/Ex03 섹션: drawScreen() 코드 박스와 main 의 cursor 복원 한 줄(`\033[1A\r\033[K`) 추가, 시각적 제약 항목 명시.
+- 사용자 환경 안내: PS 세션에서 ANSI 가 raw text 로 보이면 그 PS 는 VT 처리를 안 하는 상태. Ex02 도 같은 PS 에서 깨질 가능성 높음. VSCode 통합 터미널 / Windows Terminal 에서 실행 권장.
+- 검증: `javac` exit 0, `"start`nstop`nreset`nquit`n" | java` 자동 입력 시 정상 종료 exit 0.
+
+
+
 ## 2026-05-13
 
 ### chapter09 Ex02 동기화 예제 수정 + Ex04 경마 시각화 신규
@@ -48,6 +189,25 @@
 - `pct * TRACK_WIDTH / 100` 변환 사라짐, `String.format(" %3d%%", pct)` 출력 사라짐 — 진행바 양 끝 `|` `|` 만 남음
 - 한 걸음 진행을 1~4(%기준) 에서 1~2(칸 기준)로 자연스럽게 줄이고, 슬립을 40~79ms 에서 60~119ms 로 살짝 늘려 페이스 유지
 - docs/week09 Ex01 섹션: 코드 스니펫·샘플 출력·체크리스트 모두 새 단순 버전으로 갱신. "진행률은 퍼센트가 아니라 채워진 칸 수로 직접 관리한다" 의도 한 줄 추가.
+
+### Ex02 재설계 — 시계 스레드 + 사용자 입력 종료 (표준 패턴)
+
+- 사용자 제안: "Scanner 가 멈춰 있는 동안 시계 스레드가 계속 도는 모습"으로 스레드의 존재 이유를 직관적으로 보여 주자
+- 기존 Ex02 (두 진행바 동시 진행) → 새 Ex02 (시계 + 사용자 입력)로 전면 교체
+  - 기존은 Ex01 의 같은 패턴을 두 번 돌리는 것이라 "왜 스레드를 쓰는가"가 약했음
+  - 새 Ex02 는 블로킹 I/O (Scanner.nextLine) 가 한 스레드만 멈춘다는 핵심을 시연
+- 사용한 표준 API: `new Thread(Ex02::runClock, "clock").start()`, `Thread.sleep(1000)`, `Scanner.nextLine()`, `clock.interrupt()`, `clock.join()`, `LocalTime.now().format(DateTimeFormatter)`
+- 종료 절차는 자바 표준 interruption protocol (`interrupt() → InterruptedException catch → join()`) 그대로 사용. `volatile boolean running` 같은 추가 변수는 일부러 생략 — 가장 표준적이면서 짧은 형태
+- 출력은 영문 (`(Press Enter to quit)`, `clock: HH:MM:SS`, `Bye.`) — 사용자 콘솔 한글 깨짐 이슈 회피
+- Ex01 doc 주석에서 "Ex02 에서 같은 패턴을 두 스레드에 적용" 문구 수정. 이제 Ex01 은 "콘솔 갱신 기법 사전 학습", Ex02 는 "스레드의 존재 이유"로 역할 분리
+- docs/week09 전면 보강:
+  - 상단 학습 목표/핵심 개념을 "왜 스레드를 쓰는가" 중심으로 다시 씀
+  - Ex02 섹션 새로 작성 (구성 표 + 핵심 코드 + 샘플 출력 + 종료 흐름 단계별 설명 + interruption protocol 표기)
+  - 체크리스트를 "비교 실험" 위주로 재구성 (`start→run` 바꾸기, 스레드 안 만들기, `interrupt` 빼기, `join` 빼기)
+  - 퀴즈를 새 개념(`Thread.sleep` 영향 범위, `interrupt`/`InterruptedException` 관계 등)으로 교체
+- plan.md 9주차: 학습 도구를 `interrupt()`/`join()` 표준 절차 중심으로 갱신
+- 루트 README: 9주 행을 "스레드 기본 / Ex01=진행바 틀, Ex02=시계+입력"으로
+- 검증: `javac` exit 0, `"" | java chapter09.Ex02` 로 즉시 엔터 주입 시 "(Press Enter to quit) → clock: 한 틱 → Bye." 정상 종료, exit 0
 
 
 
