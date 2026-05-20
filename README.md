@@ -43,7 +43,7 @@ java_study/
 | 6주 | 컬렉션 프레임워크 | [app/chapter06/](app/chapter06/) (ex01~ex02 패키지) | [docs/week06/](docs/week06/README.md) |
 | 7주 | 제네릭, 람다, 스트림 | [app/chapter07/](app/chapter07/) (Ex01~Ex03) | [docs/week07/](docs/week07/README.md) |
 | 8주 | 표준 I/O와 파일 입출력 | [app/chapter08/](app/chapter08/) (Ex01~Ex04) | [docs/week08/](docs/week08/README.md) |
-| 9주 | 스레드 기본 | [app/chapter09/](app/chapter09/) (Ex01=진행바 틀, Ex02=두 스레드, Ex03=스톱워치 UI) | [docs/week09/](docs/week09/README.md) |
+| 9주 | VT 터미널 제어와 쓰레드 | [app/chapter09/](app/chapter09/) (Ex01_01~03=진행바로 보는 쓰레드, Ex02_01~03=타이머→스톱워치 TUI) | [docs/week09/](docs/week09/README.md) |
 | 10주 | 네트워크 기초 | [app/chapter10/](app/chapter10/) (Ex01~Ex03) | [docs/week10/](docs/week10/README.md) |
 
 각 주차 폴더(`docs/weekNN/README.md`)에 학습 목표, 핵심 개념, 실행 방법, 실습 체크리스트, 퀴즈 예시가 정리되어 있습니다.

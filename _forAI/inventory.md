@@ -22,7 +22,7 @@ java_study/
 │   ├── chapter06/  컬렉션 프레임워크
 │   ├── chapter07/  제네릭/람다/스트림
 │   ├── chapter08/  파일 입출력
-│   ├── chapter09/  스레드/동기화
+│   ├── chapter09/  스레드 + VT 터미널 제어
 │   └── chapter10/  네트워크 기초
 ├── docs/
 │   ├── week01/ ~ week10/        # 주차별 보조 문서
@@ -39,7 +39,7 @@ java_study/
 
 - 각 `app/chapterNN/ExNN.java` 파일이 `public static void main(...)`을 가진 독립 실행 엔트리포인트.
 - 패키지 선언은 폴더 이름과 동일 (`package chapter01;` 등 — 소문자 유지가 Java 패키지 관례).
-- 클래스명은 PascalCase 관례를 따른다 (`Ex01`, `Ex02`, ...).
+- 클래스명은 PascalCase 관례를 따른다 (`Ex01`, `Ex02`, ...). chapter09 는 예제가 두 갈래(진행바 / 타이머)라 `Ex01_01` ~ `Ex02_03` 의 `ExNN_MM` 형태를 쓴다.
 - chapter04/chapter06은 한 단원이 여러 클래스로 구성되어 하위 패키지(`chapter04.ex01`, `chapter06.ex01` 등)에 들어 있고, 그 안의 메인 진입점도 `Ex01.java`/`Ex02.java`/`Ex03.java`.
 
 ## Build and validation commands

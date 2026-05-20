@@ -2,6 +2,65 @@
 
 ## 2026-05-20
 
+### chapter09 Ex02_xx 3단계 완성 + 챕터 "VT 터미널 제어와 쓰레드" 로 재정의
+
+- 사용자 결정: Ex02_xx 를 3단계 progression 으로. 정보통신학과 맥락이라 VT/터미널 제어를 명시적 학습 주제로 끌어올림
+- Ex02_xx 최종 구성:
+  - `Ex02_01` — 타이머 자동 시작 + Enter 종료. 백그라운드 스레드 + `interrupt()`/`join()` + `\r`/`\033[2K` 한 줄 갱신. 공유 상태 없음 → `volatile` 불필요 (가장 맨몸 형태)
+  - `Ex02_02` — 스톱워치 REPL (start/stop/reset). `volatile` + 고정 레이아웃 `\033[1A`. 단, 타이핑 중 커서가 입력 줄 맨 앞으로 튀는 결함이 남음 (의도된 결함)
+  - `Ex02_03` — Ex02_02 와 `redraw()` 만 다름. `ESC 7`/`ESC 8`(커서 저장·복원)으로 그 결함 해결
+- 이번 턴 작업:
+  - `Ex02_03.java` 신규 — `SAVE_CURSOR="\0337"` / `RESTORE_CURSOR="\0338"` 상수. redraw 가 ESC7 로 커서(=타이핑 끝) 저장 → 타이머 줄 그리기 → ESC8 로 복원. 끝의 `%n` 제거 (복원이 대신함)
+  - `\033` 뒤 숫자가 8진수로 헷갈리는 함정 → 이름 있는 상수로 회피 (이전 dev_log 기록과 동일한 처리). 주석엔 `` 안 씀 — Java 가 컴파일 전에 처리해 주석에 ESC 가 박히므로
+  - `Ex02_02.java` javadoc "시각적 제약" → "Ex02_03 에서 해결" 로 forward-ref (결함→해결 progression 명시)
+  - (직전 턴) 기존 스톱워치 `Ex02_01` → `Ex02_02` 로 `git mv`, 신규 `Ex02_01`(최소 타이머) 작성
+- docs/week09/README 전면 재작성: 챕터 제목 "스레드 기본" → "VT 터미널 제어와 쓰레드". 6예제 구조 (Ex01_xx 진행바 3 + Ex02_xx 타이머→TUI 3). Ex02_01/02/03 섹션 신규·재배치, 체크리스트·퀴즈·추가실습 6예제로 재편
+- plan.md 9주차 절 재작성, 루트 README 9주 행 라벨 갱신
+- 검증: javac exit 0 (6개 클래스), Ex02_03 piped `start/reset/quit` 정상 → `Bye.`
+
+### chapter09 Ex02_01 — `\r`-only 에서 ANSI 로 전환 (챕터 전체 ANSI 통일)
+
+- 사용자 요청: "ex02 예제를 ANSI escape code 사용하게" → Ex02_01(스톱워치)을 ANSI 로. 네 예제 중 유일하게 `\r`-only 이던 것
+- 설계: timer 줄을 입력 줄 바로 위에 고정. `redraw()` 가 `\033[1A` 로 timer 줄로 올라가 `\033[2K` 로 지우고 다시 쓴 뒤 `%n` 으로 입력 줄 복귀. Ex01_xx 와 같은 toolkit(`\033[NA`+`\033[2K`), N=1
+  - 상단 2줄(Stopwatch / commands)은 한 번만 출력하는 고정 영역, timer 줄만 매초 갱신
+  - main 은 명령 처리 후 `\033[1A\r\033[2K` 로 Enter 로 내려간 커서를 입력 줄에 복귀시킨 뒤 redraw
+  - 커서 저장/복원(ESC 7/8)·라이브러리는 의도적으로 안 씀 — Ex01_xx 와 단순 패턴 통일. 타이핑 중 tick 흔들림은 문서화된 trade-off 로 수용
+- 결과: 네 예제 모두 ANSI 로 통일. 실행 안내에서 "Ex02_01 만 `\r`" 예외가 사라져 깔끔해짐
+- docs/week09/README: Ex02_01 섹션을 ANSI 기준으로 재작성, 실행 안내(네 예제 모두 ANSI)·체크리스트 갱신
+- plan.md 9주차 Ex02_01 줄 갱신
+- 검증: javac exit 0, Ex02_01 piped `start/stop/reset/quit` 정상 → `Bye.`
+
+### chapter09 4-예제 재구성 — Ex01_01 / Ex01_02 / Ex01_03 / Ex02_01
+
+- 사용자 결정: 진행바 계열과 스톱워치 계열을 그룹 번호로 분리. 앞서 논의한 렌더-스레드 아이디어를 신규 Ex01_03 으로 채택
+- 매핑: Ex01 → Ex01_01, Ex02 → Ex01_02, Ex03 → Ex02_01. 신규 Ex01_03 추가. `git mv` 로 이동(rename 추적)
+  - git index 가 ex01.java/ex02.java 를 소문자로 들고 있어 처음 `git mv Ex01.java` 가 "not under version control" 로 실패 → `git ls-files` 로 확인 후 소문자 소스명으로 git mv 하여 해결
+- 클래스명·javadoc 교차참조 일괄 수정: `public class` 명, `Ex03::runTimer` → `Ex02_01::runTimer`, "Ex01/Ex02 와 같은 \r" 류 문구 정정 (Ex01_01·Ex01_02 는 ANSI, Ex02_01 만 \r-only 이므로)
+- 신규 Ex01_03.java (갱신/렌더 분리):
+  - worker 2개는 진행률(`bar1_filled`/`bar2_filled`)만 갱신, render 스레드 1개가 50ms 간격으로 화면 전담
+  - 화면에 쓰는 스레드가 render 하나뿐 → SCREEN_LOCK 불필요. 대신 진행률을 worker 가 쓰고 render 가 읽으므로 `volatile`
+  - render 스레드는 무한 루프 → `interrupt()` + `join()` 으로 종료. 종료 후 main 이 마지막 프레임 1회 그림 (100% 보장)
+  - Ex01_02 의 '락' 과 Ex01_03 의 'volatile' 을 같은 가시성 문제의 두 해법으로 대비시킴 (교육 의도)
+- docs/week09/README 전면 재작성: 4-예제 구조. 예제 클래스 표를 Ex01_xx(진행바 계열)/Ex02_xx(상태공유 계열) 두 갈래로. Ex01_01 섹션은 이전 \r-only 단일줄 서술이 stale 이라 실제 코드(ANSI 2줄 순차)에 맞게 새로 씀. 체크리스트/퀴즈/추가실습도 4-예제로 재편
+- plan.md 9주차 절 재작성, 루트 README 9주 행 라벨 갱신
+- 검증: javac exit 0 (4개 클래스), Ex01_01/Ex01_02/Ex01_03 `Done.` · Ex02_01 `Bye.` 정상 종료
+
+### chapter09 Ex02 — 사용자가 ANSI 2줄 버전으로 재작성, 화면 락 추가
+
+- 사용자가 Ex02 를 직접 ANSI 2줄 갱신 버전으로 다시 작성. step-by-step 강의용으로 Ex01 javadoc 구조를 의도적으로 복붙(structure 재사용). `_worker1`/`_worker2` 분리, `"#".repeat()` 진행바, VT Processing + `reg add` 안내 주석 포함
+- 직전 단계의 "Ex02/Ex03 \r-only 통일" 은 Ex02 한정으로 사용자가 되돌린 셈 (ANSI 2줄로 복귀). Ex03 은 사용자 지시로 보류 → 현재 Ex01=\r, Ex02=ANSI, Ex03=\r 상태
+- 검토 후 두 가지 손봄 (사용자 요청):
+  - **잘못된 주석 교정**: javadoc 헤더가 Ex01 내용("진행바 기본 틀", "이 예제에는 아직 스레드가 없다", "사전 예제", "스레드는 Ex02 에서 다룬다") 그대로라 사실과 어긋남 → Ex02 기준으로 수정. 구조(설명+핵심 도구 표+동작 환경+PS 참고)는 step-by-step 의도대로 유지하고 사실만 교정. 핵심 도구 표에 `new Thread().start()`, `join()`, `synchronized` 추가
+  - **화면 락 추가**: `render_bars()` 가 t1/t2 양쪽에서 락 없이 호출돼 ANSI 커서 math(`\033[2A` 가 "직전 2줄"을 전제) 가 깨질 수 있는 race → `private static final Object SCREEN_LOCK` 추가, `render_bars()` 본문을 `synchronized (SCREEN_LOCK)` 으로 감쌈
+- docs/week09/README 업데이트:
+  - 직전 턴에 \r-only 단일 줄로 바꿔놨던 Ex02 서술 전체를 ANSI 2줄 + 락 기준으로 재작성. 실제 코드와 일치하도록 코드 예시(`_worker1`/`t1`), 비교 표, 출력 예시(`bar1 [###...]` / `Done.`) 교체
+  - 실행 안내: Ex01/Ex03 은 `\r` 만 써 어디서나 동작, Ex02 는 ANSI 라 VT 콘솔 필요 — `reg add` 안내는 Ex02.java 주석 링크로
+  - 학습 목표에 "두 스레드가 한 화면을 그릴 때 `synchronized` 로 직렬화" 추가. 체크리스트에 "`synchronized` 빼고 화면 깨짐 관찰" 항목, 퀴즈에 `synchronized` 문항 추가
+  - 추가 실습의 워커 3개 / 슬립 조정 항목을 실제 코드(`bar3_filled`, `\033[3A`, `rng.nextInt(100,500)`)에 맞게 수정
+  - Ex03 섹션의 "Ex02 가 한 줄에 통째로 그렸듯이" 라는 (이제 틀린) 비교 한 줄을 "Ex01 이 `\r` 로 그렸듯이" 로 교정. Ex03 본문/로직은 사용자 지시대로 손대지 않음
+- plan.md: synchronized 가 Ex02 화면 락으로 가볍게 등장한다는 점 반영, Ex02 실습/퀴즈 항목 갱신
+- 검증: javac exit 0, Ex02 실행 시 두 진행바 정상 동시 갱신 + `Done.` 종료
+
 ### chapter09 화면 갱신 일관화 — Ex02/Ex03 도 `\r`-only 로 통일
 
 - 사용자 보고: PowerShell 세션에서 Ex02 실행 시 `[2A`, `[K` 같은 ANSI escape 가 raw text 로 나옴. Ex01 은 멀쩡한데 Ex02 부터 깨짐

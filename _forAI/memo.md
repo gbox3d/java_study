@@ -30,7 +30,7 @@
 
 ## 자주 나오는 함정 (디버깅 참고)
 
-- **클래스명과 파일명**: 파일명은 그 안의 `public class` 이름과 글자 그대로(대소문자 포함) 일치해야 한다. 이 프로젝트는 모두 PascalCase (`Ex01.java` / `public class Ex01`).
+- **클래스명과 파일명**: 파일명은 그 안의 `public class` 이름과 글자 그대로(대소문자 포함) 일치해야 한다. 대부분 PascalCase (`Ex01.java` / `public class Ex01`), chapter09 만 `Ex01_01` 같은 `ExNN_MM` 형태.
 - **패키지 vs 실행 디렉터리**: `package chapter01;` 선언이 있으면 `-cp bin chapter01.Ex01` 형태로 실행해야 함. 직접 `java Ex01.java`를 chapter01 폴더 안에서 호출하면 패키지 불일치로 실패.
 - **한글 출력 깨짐**: PowerShell 콘솔 코드페이지가 949(CP949)이면 한글 출력이 깨질 수 있음. `chcp 65001` 또는 Windows Terminal + UTF-8 셸 권장.
 - **`switch`의 fall-through**: 1주차 예제 `Ex04`에서 `break` 유무에 따른 동작 차이를 반드시 라이브 코딩으로 비교.

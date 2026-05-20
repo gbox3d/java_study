@@ -82,16 +82,24 @@ find app -name "*.java" | xargs javac -encoding UTF-8 -d out/classes
 - 실습: 콘솔에서 이름/나이 입력받아 서식 출력(Ex01) → 같은 흐름을 파일로 옮겨 쓰기·읽기(Ex02) → 버퍼로 줄 단위 처리(Ex03) → 객체 직렬화 비교(Ex04)
 - 퀴즈: `nextInt` 후 `nextLine` 함정, `printf` 서식 의미, 스트림 선택 기준, 직렬화 전후 `transient` 필드 값 차이
 
-### 9주차 - 스레드 기본
-- 참고 소스: `chapter09/Ex01.java` (진행바 기본 틀, 단일 스레드, 콘솔 갱신 사전 학습), `chapter09/Ex02.java` (두 스레드 동시 진행, `start()`/`join()` 기본), `chapter09/Ex03.java` (스톱워치 UI — start/stop/reset/quit 명령 + `volatile` 공유 상태 + REPL, 화면 갱신은 Ex01/Ex02 와 같은 `\r`-only 패턴)
-- 이론: 콘솔 갱신 트릭 (`\r`, `System.out.flush`), `Runnable` 람다 / 메서드 참조, `new Thread(...).start()` vs `run()` 직접 호출, `Thread.sleep` 이 호출한 스레드만 멈춘다는 점, `Scanner.nextLine()` 같은 블로킹 호출도 마찬가지, 표준 종료 절차 `interrupt() → join()` (interruption protocol)
+### 9주차 - VT 터미널 제어와 쓰레드
+- 참고 소스 (chapter09, 두 갈래):
+  - `Ex01_01.java` — 진행바 기본 틀. 단일 스레드가 두 트랙을 차례로 채운다. ANSI 2줄 그리기 (`\033[2A`/`\033[2K`)
+  - `Ex01_02.java` — 두 스레드 동시 진행. `start()`/`join()`, 화면 출력 `synchronized` 락
+  - `Ex01_03.java` — 갱신/렌더 스레드 분리. `volatile` 진행률 + render 스레드 + `interrupt()` 종료
+  - `Ex02_01.java` — 타이머. 자동으로 돌고 Enter 로 종료. 백그라운드 스레드 + `\r`/`\033[2K` 한 줄 갱신, 공유 상태 없음
+  - `Ex02_02.java` — 스톱워치 REPL. start/stop/reset/quit 명령 + `volatile` 공유 상태 + 상태 머신. 고정 레이아웃 `\033[1A` (단, 타이핑 중 커서 튐 결함)
+  - `Ex02_03.java` — Ex02_02 와 redraw() 만 다름. 커서 저장·복원(`ESC 7`/`ESC 8`)으로 타이핑 흔들림 해결
+- 이론: VT/콘솔 갱신 (`\r`, `\033[2A`/`\033[1A`, `\033[2K`, 커서 저장·복원 `ESC 7`/`ESC 8`, `flush`), `Runnable` 람다 / 메서드 참조, `new Thread(...).start()` vs `run()` 직접 호출, `Thread.sleep` 이 호출한 스레드만 멈춘다는 점, `Scanner.nextLine()` 같은 블로킹 호출도 마찬가지, 한 자원을 공유할 때의 두 해법 (`synchronized` 락 / `volatile`), 표준 종료 절차 `interrupt() → join()` (interruption protocol)
 - 실습:
-  - Ex01 — `\r`/`\n` 비교, `flush` 빼고 관찰
-  - Ex02 — `tA.start()` 를 `tA.run()` 으로 바꿔 동시 진행이 사라지는 것 확인, `join` 빼고 메시지가 끼어드는 모습, 워커 평균 속도 같게 맞추기
-  - Ex03 — 스레드 없이 main 에서 `runClock()` 만 호출해 Scanner 와 시계가 서로 잡아먹는 모습, `clock.interrupt()` 빼고 종료 지연 관찰
-- 퀴즈: `\r`/`\n` 차이, `flush` 필요성, `start` 와 `run` 차이, `join` 의 역할, `Thread.sleep` 의 영향 범위, `Scanner.nextLine()` 블로킹의 영향 범위, `interrupt`와 `InterruptedException`의 관계
-- 의도적으로 단순화: `synchronized`/`Atomic*`/`ExecutorService` 같은 무거운 동시성 개념은 이번 주차에서 다루지 않는다 (학생 이해도 우선). 필요해지면 별도 보강 주차로 분리
-
+  - Ex01_01 — `\033[2A` 빼고 줄이 쌓이는 것 관찰, `flush` 빼고 관찰
+  - Ex01_02 — `t1.start()` 를 `t1.run()` 으로 바꿔 동시 진행이 사라지는 것 확인, `join` 빼고 메시지가 끼어드는 모습, `render_bars()` 의 `synchronized` 빼고 화면이 깨지는 모습
+  - Ex01_03 — `volatile` 빼고 관찰, `renderer.interrupt()` 빼고 프로그램이 안 끝나는 것 확인
+  - Ex02_01 — main 이 Enter 입력 대기로 멈춰 있어도 timer 가 계속 도는 것 관찰
+  - Ex02_02 ↔ Ex02_03 — 명령을 천천히 타이핑하며 커서 흔들림 유무 비교, Ex02_03 의 `SAVE_CURSOR`/`RESTORE_CURSOR` 빼 보기
+- 퀴즈: `\r`/`\n` 차이와 `\033[2A`/`\033[2K` 의 역할, `flush` 필요성, `start` 와 `run` 차이, `join` 의 역할, `Thread.sleep` 의 영향 범위, `Scanner.nextLine()` 블로킹의 영향 범위, `synchronized` 와 `volatile` 을 각각 언제 쓰는가, `interrupt` 와 `InterruptedException` 의 관계, `ESC 7`/`ESC 8` 커서 저장·복원의 원리
+- VT 챕터로 재정의: 쓰레드는 Ex01_xx 에서 익히고, Ex02_xx 는 그 위에 VT 터미널 제어로 인터랙티브 화면을 입힌다. 정보통신학과 맥락에서 터미널 제어 자체가 학습 가치
+- 의도적으로 단순화: 동시성 도구는 `synchronized`(Ex01_02 화면 락)와 `volatile`(Ex01_03·Ex02_02·Ex02_03 공유 변수) 두 가지만 가볍게 다룬다. `Atomic*`/`ExecutorService`/메모리 모델, raw mode·키 단위 입력·TUI 라이브러리(Jansi/JLine)는 범위 밖 — 필요해지면 별도 보강 주차로 분리
 ### 10주차 - 네트워크 기초
 - 참고 소스: `chapter10/Ex01.java`, `chapter10/Ex02.java`, `chapter10/Ex03.java`
 - 이론: UDP/TCP 차이, 소켓 통신 기본 흐름, 서버-클라이언트 구조, 멀티 클라이언트 처리
